@@ -6,6 +6,10 @@ using LearningDDD.Api.Extensions;
 using LearningDDD.Api.Services.ChargeStations;
 using LearningDDD.Api.Services.Connectors;
 using LearningDDD.Api.Services.Groups;
+using LearningDDD.Api.Application.Commands.Groups;
+using MediatR;
+using System.Text.RegularExpressions;
+using LearningDDD.Domain.SeedWork;
 
 namespace LearningDDD.Api.Endpoints
 {
@@ -27,16 +31,16 @@ namespace LearningDDD.Api.Endpoints
             var groupsApi = builder.MapGroup("/groups")
             .AddFluentValidationAutoValidation(); // Apply to all endpoints in this group
 
-            groupsApi.MapPost("/", async (CreateGroup createGroup, IGroupService groupService) =>
+            groupsApi.MapPost("/", async (CreateGroupCommand command, IMediator mediator) =>
             {
-                var result = await groupService.CreateGroupAsync(createGroup);
+                var result = await mediator.Send(command);
 
                 return result.ToApiResult("/groups", true);
             });
 
-            groupsApi.MapPut("/{id}", async (Guid id, UpdateGroup updateGroup, IGroupService groupService) =>
+            groupsApi.MapPut("/{id}", async (Guid id, UpdateGroupCommand command, IMediator mediator) =>
             {
-                var result = await groupService.UpdateGroupAsync(id, updateGroup);
+                var result = await mediator.Send(command);
                 return result.ToApiResult("/groups");
             });
 

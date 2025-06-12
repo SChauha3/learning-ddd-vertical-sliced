@@ -16,6 +16,8 @@ builder.Services.AddValidators();
 builder.Services.AddAppServices();
 builder.Services.AddUnitOfWork();
 builder.Services.AddSqlLite();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+builder.Services.AddGroupHandler();
 
 var app = builder.Build();
 

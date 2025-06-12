@@ -1,6 +1,8 @@
-﻿namespace LearningDDD.Api.Application.Commands.Groups
+﻿using LearningDDD.Domain.Models;
+using LearningDDD.Domain.SeedWork;
+using MediatR;
+
+namespace LearningDDD.Api.Application.Commands.Groups
 {
-    public class CreateGroupCommand
-    {
-    }
+    public record CreateGroupCommand(string Name, int Capacity) : IRequest<Result<Group>>;
 }

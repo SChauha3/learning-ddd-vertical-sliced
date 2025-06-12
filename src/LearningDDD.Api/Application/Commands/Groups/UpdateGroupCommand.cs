@@ -1,6 +1,7 @@
-﻿namespace LearningDDD.Api.Application.Commands.Groups
+﻿using LearningDDD.Domain.SeedWork;
+using MediatR;
+
+namespace LearningDDD.Api.Application.Commands.Groups
 {
-    public class UpdateGroupCommand
-    {
-    }
+    public record UpdateGroupCommand(Guid Id, string Name, int Capacity) : IRequest<Result<bool>>;
 }
