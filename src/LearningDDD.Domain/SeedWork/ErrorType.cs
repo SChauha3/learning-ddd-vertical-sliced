@@ -12,6 +12,8 @@
 
         ConnectorNotFound,
         ConnectorNameRequired,
+        ConnectorCountExceeded,
+        DuplicateConnectorContextId,
         CapacityNotGreaterThanZero,
         UniqueConnector,
         CapacityNotGreaterThanUsedCurrent,

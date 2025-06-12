@@ -41,18 +41,16 @@ namespace LearningDDD.Domain.Models
 
         public Result<ChargeStation> AddChargeStation(
             string name,
-            IEnumerable<(int chargeStationContextId, int maxCurrent)> connectors)
+            IEnumerable<(int chargeStationContextId, int maxCurrent)> connectorInvariants)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result<ChargeStation>.Fail("Charge station name is required.", ErrorType.ChargeStationNameRequired);
 
-            if (!connectors.Any())
-                return Result<ChargeStation>.Fail("Connectors cannot be null.", ErrorType.ChargeStationWithoutConnector);
+            var chargeStation = ChargeStation.Create(name, connectorInvariants);
+            if(chargeStation.IsSuccess && chargeStation.Value is not null)
+                _chargeStations.Add(chargeStation.Value);
 
-            var chargeStation = ChargeStation.Create(name, connectors);
-
-            _chargeStations.Add(chargeStation);
-            return Result<ChargeStation>.Success(chargeStation);
+            return chargeStation;
         }
 
         public Result<bool> UpdateChargeStation(Guid chargeStationId, string newName)
